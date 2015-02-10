@@ -10,7 +10,7 @@ console.log('start');
 
 
 var time;
-var countValue = 10000000;
+var countValue = 100;
 
 var count = function (countValue) {
     var i = 0;

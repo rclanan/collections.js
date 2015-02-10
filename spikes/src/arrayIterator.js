@@ -1,16 +1,17 @@
-'use strict';
 
 function buildIncrementedIterator(options, incrementValue) {
+    'use strict';
 	return baseBuild({
 		first: options.first,
 		array: options.array,
 		valueFunction: options.valueFunction,
 		index: options.index + incrementValue
-	}); 
+	});
 }
 
-
 function build(options) {
+	'use strict';
+
 	var item, valueFunction;
 
 	item = {};
@@ -19,7 +20,7 @@ function build(options) {
     options.value = options.array[options.index];
 
 	if(options.index >= options.array.length) {
-		valueFunction = function() {return undefined}
+		valueFunction = function() { return undefined; };
 	} else {
 		valueFunction = function(value) { return options.getValueFunction(value);}
 	}

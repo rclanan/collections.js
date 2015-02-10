@@ -21,7 +21,6 @@
   },
   "homepage": "https://github.com/fusionalliance/collections.js",
   "devDependencies": {
-    "nanotimer": "^0.3.10",
-    "nodetime": "^0.8.15"
+    "cpu-profiler": "^2.1.1"
   }
 }
