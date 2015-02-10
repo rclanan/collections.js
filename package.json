@@ -21,5 +21,6 @@
   },
   "homepage": "https://github.com/fusionalliance/collections.js",
   "devDependencies": {
+    "cpu-profiler": "^2.1.1"
   }
 }
