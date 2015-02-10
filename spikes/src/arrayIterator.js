@@ -1,15 +1,17 @@
-'use strict'
-
 function buildIncrementedIterator(options, incrementValue) {
+	'use strict';
+
 	return build({
 		first: options.first,
 		array: options.array,
 		getValueFunction: options.getValueFunction,
 		index: options.index + incrementValue
-	}); 
+	});
 }
 
 function buildProperties(options) {
+	'use strict';
+
 	var buildOptions = options.buildOptions;
 
 	Object.defineProperty(options.item, 'first', {
@@ -22,7 +24,7 @@ function buildProperties(options) {
 
 	Object.defineProperty(options.item, 'hasNext', {
 		get: function(){ return buildOptions.index >= buildOptions.array.length; }
-	})
+	});
 
 	Object.defineProperty(options.item, 'value', {
 		get: options.valueFunction
@@ -30,6 +32,8 @@ function buildProperties(options) {
 }
 
 function build(options) {
+	'use strict';
+
 	var item, valueFunction;
 
 	item = {};
@@ -38,15 +42,15 @@ function build(options) {
     options.value = options.array[options.index];
 
 	if(options.index >= options.array.length) {
-		valueFunction = function() {return undefined}
+		valueFunction = function() { return undefined; };
 	} else {
-		valueFunction = function() { return options.getValueFunction(options.value);}
+		valueFunction = function() { return options.getValueFunction(options.value); };
 	}
 
 	if(options.index === 0) {
 		options.first = item;
 	}
-	
+
 	buildProperties({
 		buildOptions: options,
 		item: item,
@@ -54,8 +58,8 @@ function build(options) {
 	});
 
 	return item;
-} 
+}
 
 module.exports = {
 	build: build
-}
+};

@@ -18,13 +18,14 @@
 
 var typeCheck, arrayIterator;
 
-
 typeCheck = require("./typeCheck.js");
 arrayIterator = require("./arrayIterator.js");
 
 function hasRequirements(value) {
+	'use strict';
+	
 	return typeCheck.hasFunctions(value, ['first','next', 'reset', 'as', 'getValue'] );
-};
+}
 
 function build(value, getValueFunction) {
 	// force it to only expose this. we can find a way to better define this though.
@@ -40,12 +41,9 @@ function build(value, getValueFunction) {
 	} else {
 		throw new Error('value cannot be iterated');
 	}
-	
+
 }
 
 module.exports = {
 	build: build
-}
-
-
-
+};
