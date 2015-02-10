@@ -1,0 +1,25 @@
+{
+  "name": "collections.js",
+  "version": "0.0.1",
+  "description": "collections library for JavaScript",
+  "main": "spikes/src/test.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:fusionalliance/collections.js.git"
+  },
+  "keywords": [
+    "constants"
+  ],
+  "author": "Fusion Alliance (http://www.fusionalliance.com/)",
+  "contributors": [
+    "Jim Kelly <Talk@ProgrammerWithouta.Name> (http://programmerwithouta.name/)",
+    "Ray Clanan <rclanan@utopianconcept.com> (http://utopianconcept.com/)"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fusionalliance/collections.js/issues"
+  },
+  "homepage": "https://github.com/fusionalliance/collections.js",
+  "devDependencies": {
+  }
+}
