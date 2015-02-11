@@ -1,62 +1,51 @@
 
-function buildIncrementedIterator(options, incrementValue) {
-    'use strict';
-	return baseBuild({
-		first: options.first,
-		array: options.array,
-		valueFunction: options.valueFunction,
-		index: options.index + incrementValue
-	});
+
+function buildPrototype(options) {
+  'use strict';
+  var first;
+
+  function Iterator(index) {
+    this.index = index;
+  }
+
+  Iterator.prototype.next = function() { return new Iterator(this.index+1);};
+  Iterator.prototype.first = function(){ return this.first; };
+
+  if(typeof options.valueFunction === 'function') {
+    Iterator.prototype.value = function() { return options.valueFunction(this.backingArray[this.index]); };
+  } else {
+    Iterator.prototype.value = function() { return this.backingArray[this.index]; };
+  }
+
+  Iterator.prototype.backingArray = options.array;
+
+  first = new Iterator(0);
+  Iterator.prototype.first = first;
+  return first;
 }
+
 
 function build(options) {
 	'use strict';
 
 	var item, valueFunction;
 
-	item = {};
 
-	options.index = options.index === undefined ? 0 : options.index;
-    options.value = options.array[options.index];
 
 	if(options.index >= options.array.length) {
 		valueFunction = function() { return undefined; };
 	} else {
-		valueFunction = function(value) { return options.getValueFunction(value);}
+		valueFunction = options.valueFunction;
 	}
 
-    var itemBase = {
-        first: function() { return options.first || item; }
-    };
+  item = buildPrototype({
+    array: options.array,
+    valueFunction: valueFunction
+  });
 
-	item = baseBuild({
-        first: function() { return options.first || item; },
-        index: options.index,
-        array: options.array,
-        valueFunction: valueFunction
-    });
-
-    return item;
+  return item;
 }
 
-
-function baseBuild(options) {
-    var item;
-    function setLocation(location){
-        options.index = location;
-        return item;
-    }
-
-    function value() {
-        return options.valueFunction(options.array[options.index]);
-    }
-    item = {
-        next: function(){ return setLocation(options.index + 1); },
-        value: value,
-        first: function(){ return setLocation(0);}
-    };
-    return item;
-}
 
 module.exports = {
 	build: build

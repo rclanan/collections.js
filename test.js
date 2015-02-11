@@ -10,7 +10,7 @@ console.log('start');
 
 
 var time;
-var countValue = 100;
+var countValue = 10;
 
 var count = function (countValue) {
     var i = 0;
@@ -29,7 +29,7 @@ function getTimeToRun(testFn) {
 }
 
 function logTheTime(name, time) {
-    console.log(name + ': ' + time[0] + 'seconds, ' + time[1] + ' ms');
+    console.log(name + ': ' + time[0] + 'seconds, ' + time[1] + ' ns');
 }
 
 function timeThis(iter) {
@@ -79,6 +79,3 @@ iterateTime = getTimeToRun(function(){
 });
 logTheTime('iterate', iterateTime);
 console.log(iterated);
-
-
-
