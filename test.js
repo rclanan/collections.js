@@ -1,16 +1,11 @@
 'use strict';
 
-var iterator = require('./spikes/src/iterator.js');
-
-
-
-
+var arrayCollection = require('./spikes/src/collections/arrayCollection');
 
 console.log('start');
 
 
-var time;
-var countValue = 10;
+var countValue = 100000;
 
 var count = function (countValue) {
     var i = 0;
@@ -28,25 +23,25 @@ function getTimeToRun(testFn) {
     return time;
 }
 
+function getTimeToRunDoneCall(testFn, whenDone) {
+  var time = process.hrtime();
+  function done() {
+    whenDone(process.hrtime(time));
+  }
+  testFn(done);
+}
+
 function logTheTime(name, time) {
     console.log(name + ': ' + time[0] + 'seconds, ' + time[1] + ' ns');
 }
 
-function timeThis(iter) {
-    var otherValue;
+var countTime, arrayBuildTime, iteratorBuildTime, forEachIterateTime, iterated;
 
-    do{
-        otherValue = iter.next;
-    } while(iter.value);
-}
-
-var countTime, arrayBuildTime, iteratorBuildTime, iterateTime, forEachIterateTime, iterated;
-
-var iter, buildArray;
+var collection, buildArray;
 
 iterated = 0;
 
-countTime = getTimeToRun(function(){ count(countValue) });
+countTime = getTimeToRun(function(){ count(countValue); });
 logTheTime('count', countTime);
 
 arrayBuildTime = getTimeToRun(function(){
@@ -57,7 +52,7 @@ arrayBuildTime = getTimeToRun(function(){
 });
 logTheTime('arrayBuild', arrayBuildTime);
 
-iteratorBuildTime = getTimeToRun(function(){ iter = iterator.build(buildArray); });
+iteratorBuildTime = getTimeToRun(function(){ collection = arrayCollection.build(buildArray); });
 logTheTime('iteratorBuild', iteratorBuildTime);
 
 
@@ -69,13 +64,22 @@ forEachIterateTime = getTimeToRun(function(){
 });
 logTheTime('forEach', forEachIterateTime);
 
-iterateTime = getTimeToRun(function(){
-    var other;
-    do{
-        other = iter.value();
-        iter = iter.next();
-    } while(iter.value() !== undefined)
-    iterated = other;
+
+getTimeToRunDoneCall(function(done){
+  var otherVar;
+  function iterateAll(collectionItem) {
+    collectionItem.value().then(function(value) {
+      if(value) {
+        otherVar = value;
+        iterateAll(collectionItem.next());
+      } else {
+        done();
+        console.log(otherVar);
+      }
+    });
+  }
+  iterateAll(collection.iterator);
+
+}, function(time){
+  logTheTime('iterate', time);
 });
-logTheTime('iterate', iterateTime);
-console.log(iterated);
